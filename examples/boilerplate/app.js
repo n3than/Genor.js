@@ -1,4 +1,4 @@
-class App extends Notic.Component { //The App component.
+class App extends notic.Component { //The App component.
     
     html(){ //Method that generates html of the App component.
         var icon_1080 = `<img src = "img/icon-1080.png" id = "icon" />`;
@@ -11,4 +11,4 @@ class App extends Notic.Component { //The App component.
 }
 
 var app = new App();
-Notic.initialize();
+notic.initialize();
