@@ -2,7 +2,7 @@
 {
     function Notic(){
         this.routes = {};
-        this.version = {major: 0, minor: 0, patch: 1};
+        this.version = {major: 0, minor: 0, patch: 0};
         this.defaultRoute = "";
         this.viewElement;
         this.registeredComponents = {}
