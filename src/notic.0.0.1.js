@@ -2,32 +2,32 @@
 {
     function Notic(){
         this.routes = {};
-        this.version = {major: 0, minor: 0, patch: 0};
+        this.version = {major: 0, minor: 0, patch: 1};
         this.defaultRoute = "";
         this.viewElement;
+        this.registeredComponents = {}
     }
 
     class Component{
         constructor(renderId, renderRoutes){
-            if(renderId){
-                this.renderRoutes = renderRoutes;
-                this.renderId = renderId;
-            }
-            else{
-                this.renderRoutes = ["app"];
+            this.renderRoutes = renderRoutes;
+            this.renderId = renderId;
+            if(!renderId)
                 this.renderId = "appView";
-            }
 
-            if(window.Notic.registeredComponents[this.renderId] === undefined)
-                window.Notic.registeredComponents[this.renderId] = [];
+            if(!renderRoutes)
+                this.renderRoutes = [window.notic.defaultRoute];
+
+            if(window.notic.registeredComponents[this.renderId] === undefined)
+                window.notic.registeredComponents[this.renderId] = [];
             
-            window.Notic.registeredComponents[this.renderId].push(this);
+            window.notic.registeredComponents[this.renderId].push(this);
 
             this.renderRoutes.forEach(element => {
-                if(window.Notic.routes[element] === undefined)
-                    window.Notic.routes[element] = [];
+                if(window.notic.routes[element] === undefined)
+                    window.notic.routes[element] = [];
                 
-                window.Notic.routes[element].push(this);
+                window.notic.routes[element].push(this);
             });
         }
     }
@@ -36,8 +36,6 @@
         var updateMvcDelegate = updateMvc.bind(this);
         this.viewElement = d.getElementById('appView');
         if (!this.viewElement) return;
-
-        this.defaultRoute = "app";
 
         window.onhashchange = updateMvcDelegate;
         updateMvcDelegate();
@@ -62,15 +60,17 @@
                 
                 let currentId = item.renderId;
                 
+                console.log(currentId);
                 if(updatedIds.includes(currentId)){
                     d.getElementById(currentId).innerHTML = d.getElementById(currentId).innerHTML + item.html();
                 }
                 else{
+                    console.log(currentId);
                     d.getElementById(currentId).innerHTML = item.html();
                     updatedIds.push(currentId)
                 }
 
-                window.Notic.registeredComponents[currentId].forEach((item) => {
+                this.registeredComponents[currentId].forEach((item) => {
                     if(item.hashUpdate)
                         item.hashUpdate(newHash);
                 });
@@ -78,9 +78,10 @@
         }
     }
 
-    w['Notic'] = new Notic();
-    w.Notic.Component = Component;
-    w.Notic.registeredComponents = {};
+    w['notic'] = new Notic();
+    w.notic.Component = Component;
+    w.notic.registeredComponents = {};
+    w.notic.defaultRoute = "home";
 
     var style = document.createElement("link");
     style.rel = "stylesheet";
