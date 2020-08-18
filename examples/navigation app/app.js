@@ -1,11 +1,11 @@
-class AppView extends notic.Component{
+class AppComponent extends notic.Component{
     html(){
         return(`<div id = "navBar"> </div>
                 <div id = "content" style = "padding: 16px"> </div>`)
     }
 }
 
-class NavBarView extends notic.Component{
+class NavBarComponent extends notic.Component{
     constructor(){
         super("navBar");
     }
@@ -28,7 +28,7 @@ class NavBarView extends notic.Component{
     }
 }
 
-class ListView extends notic.Component{
+class ListComponent extends notic.Component{
     constructor(){
         super("content");
     }
@@ -53,7 +53,7 @@ class ListView extends notic.Component{
     }
 }
 
-class ProfileView extends notic.Component{
+class ProfileComponent extends notic.Component{
     constructor(){
         super("content", ["profile"])
     }
@@ -61,8 +61,7 @@ class ProfileView extends notic.Component{
         return  `<div class="row">
 
         <div class="col s3">
-            <i class="large material-icons">account_box</i>
-            <h2>Profile page</h2>
+            <div class="row"> <h3 class="header" style = "margin-left:16px">Profile</h3>
         </div>
   
         <div class="col s9">
@@ -71,7 +70,7 @@ class ProfileView extends notic.Component{
     }
 }
 
-class GalleryView extends notic.Component{
+class GalleryComponent extends notic.Component{
     constructor(){
         super("content", ["gallery"])
     }
@@ -115,9 +114,9 @@ class GalleryView extends notic.Component{
     }
 }
 
-var appView = new AppView();
-var navbarView = new NavBarView();
-var listView = new ListView();
-var galleryView = new GalleryView();
-var infoView = new ProfileView();
+var appComponent = new AppComponent();
+var navbarComponent = new NavBarComponent();
+var listComponent = new ListComponent();
+var galleryComponent = new GalleryComponent();
+var infoComponent = new ProfileComponent();
 notic.initialize();
