@@ -1,71 +1,69 @@
 ; (function (w, d)
 {
-    function Notic(){
-        this.routes = {};
-        this.version = {major: 0, minor: 0, patch: 0};
-        this.defaultRoute = "";
+    function Notic(){       //Summary and creation of all values
+        this.hashList = {};
+        this.version = {major: 0, minor: 0, patch: 1};
+        this.defaultHash = "";
         this.viewElement;
         this.registeredComponents = {}
     }
 
     class Component{
-        constructor(renderId, renderRoutes){
-            this.renderRoutes = renderRoutes;
+        constructor(renderId, renderHashList){      //Registeres the given object in notic
+            this.renderHashList = renderHashList;
             this.renderId = renderId;
             if(!renderId)
                 this.renderId = "appView";
 
-            if(!renderRoutes)
-                this.renderRoutes = [window.notic.defaultRoute];
+            if(!renderHashList)
+                this.renderHashList = [window.notic.defaultHash];
 
             if(window.notic.registeredComponents[this.renderId] === undefined)
                 window.notic.registeredComponents[this.renderId] = [];
             
             window.notic.registeredComponents[this.renderId].push(this);
 
-            this.renderRoutes.forEach(element => {
-                if(window.notic.routes[element] === undefined)
-                    window.notic.routes[element] = [];
+            this.renderHashList.forEach(element => {
+                if(window.notic.hashList[element] === undefined)
+                    window.notic.hashList[element] = [];
                 
-                window.notic.routes[element].push(this);
+                window.notic.hashList[element].push(this);
             });
         }
     }
 
-    Notic.prototype.initialize = function(){
-        var updateMvcDelegate = updateMvc.bind(this);
+    Notic.prototype.initialize = function(){        //Setting values and init listener to hash changes.
+        var updateNoticDelegate = updateNotic.bind(this);
         this.viewElement = d.getElementById('appView');
         if (!this.viewElement) return;
 
-        window.onhashchange = updateMvcDelegate;
-        updateMvcDelegate();
-        w.location.hash = "#/" + this.defaultRoute;
+        window.onhashchange = updateNoticDelegate;
+        updateNoticDelegate();
+        w.location.hash = "#/" + this.defaultHash;
     }
 
-    Notic.prototype.start = function(){
-        var updateMvcDelegate = updateMvc().bind(this);
-        w.onhashchange = updateMvcDelegate;
+    Notic.prototype.start = function(){     //Binds the onhashchange to the updateNotic function.
+        var updateNoticDelegate = updateNotic().bind(this);
+        w.onhashchange = updateNoticDelegate;
     }
     
-    function updateMvc(){
-        if(this.routes){
+    function updateNotic(){     //Handles all the html changes by firing specific methods from Components.
+        if(this.hashList){
             var newHash = w.location.hash.replace('#', '');
             newHash = newHash.replace('/', '');
             
-            if(!(newHash in this.routes))
-                newHash = this.defaultRoute;
+            if(!(newHash in this.hashList))
+                newHash = this.defaultHash;
 
             let updatedIds = [];
-            this.routes[newHash].forEach((item) => {
+            this.hashList[newHash].forEach((item) => {
                 
                 let currentId = item.renderId;
                 
-                console.log(currentId);
                 if(updatedIds.includes(currentId)){
                     d.getElementById(currentId).innerHTML = d.getElementById(currentId).innerHTML + item.html();
                 }
                 else{
-                    console.log(currentId);
                     d.getElementById(currentId).innerHTML = item.html();
                     updatedIds.push(currentId)
                 }
@@ -78,14 +76,12 @@
         }
     }
 
-    w['notic'] = new Notic();
+    document.onload = function(){
+        notic.initialize();
+    }
+
+    w.notic = new Notic();   //Appends needed values to the window.
     w.notic.Component = Component;
     w.notic.registeredComponents = {};
-    w.notic.defaultRoute = "home";
-
-    var style = document.createElement("link");
-    style.rel = "stylesheet";
-    style.href= "styles.css";
-    document.head.appendChild(style);
-
+    w.notic.defaultHash = "home";
 })(window, document);
