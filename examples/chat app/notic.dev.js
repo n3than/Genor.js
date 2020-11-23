@@ -9,28 +9,29 @@
     }
 
     class Component{
-        constructor(renderId, renderHashList){      //Registeres the given object in notic
-            this.renderHashList = renderHashList;
-            this.renderId = renderId;
-            if(!renderId)
-                this.renderId = "appView";
+        constructor(properties, view, hashList){      //Registeres the given object in notic
+            this.properties = properties;
+            this.hashList = hashList;
+            this.view = view;
+            if(!view)
+                this.view = "appView";
 
-            if(!renderHashList)
-                this.renderHashList = [window.notic.defaultHash];
+            if(!hashList)
+                this.hashList = [window.notic.defaultHash];
 
-            if(window.notic.registeredComponents[this.renderId] === undefined)
-                window.notic.registeredComponents[this.renderId] = [];
+            if(window.notic.registeredComponents[this.view] === undefined)
+                window.notic.registeredComponents[this.view] = [];
             
-            window.notic.registeredComponents[this.renderId].push(this);
+            window.notic.registeredComponents[this.view].push(this);
 
-            this.renderHashList.forEach(element => {
+            this.hashList.forEach(element => {
                 if(window.notic.hashList[element] === undefined)
                     window.notic.hashList[element] = [];
                 
                 window.notic.hashList[element].push(this);
             });
             if(notic)
-                notic.update();
+                notic.update(view);
         }
     }
 
@@ -49,37 +50,49 @@
         w.onhashchange = updateNoticDelegate;
     }
 
-    Notic.prototype.update = function(){
+    Notic.prototype.update = function(view){
         var updateNoticDelegate = updateNotic.bind(this);
-        updateNoticDelegate();
+        updateNoticDelegate(view);
     }
     
-    function updateNotic(){     //Handles all the html changes by firing specific methods from Components.
-        if(this.hashList){
-            var newHash = w.location.hash.replace('#', '');
-            newHash = newHash.replace('/', '');
-            
+    function updateNotic(view){     //Handles all the html changes by firing specific methods from Components.
+        
+        console.log(view);
+        var newHash = w.location.hash.replace('#', '').replace('/', '');;
+
+        if(view){
+            if(d.getElementById(view)){
+                d.getElementById(view).innerHTML = "";
+                
+                this.registeredComponents[view].forEach((item) => {
+                        d.getElementById(view).innerHTML = d.getElementById(view).innerHTML + item.html();
+                        if(item.updateView)
+                            item.updateView();
+                });
+            }
+        }
+        else{
             if(!(newHash in this.hashList))
                 newHash = this.defaultHash;
-
-            let updatedIds = [];
+            
+            let updatedViews = [];
             this.hashList[newHash].forEach((item) => {
                 
-                let currentId = item.renderId;
+                let currentView = item.view;
                 
-                if(updatedIds.includes(currentId)){
-                    d.getElementById(currentId).innerHTML = d.getElementById(currentId).innerHTML + item.html();
+                if(updatedViews.includes(currentView)){
+                    d.getElementById(currentView).innerHTML = d.getElementById(currentView).innerHTML + item.html();
                 }
                 else{
-                    d.getElementById(currentId).innerHTML = item.html();
-                    updatedIds.push(currentId)
+                    d.getElementById(currentView).innerHTML = item.html();
+                    updatedViews.push(currentView);
                 }
-
-                this.registeredComponents[currentId].forEach((item) => {
-                    if(item.hashUpdate)
-                        item.hashUpdate(newHash);
+    
+                this.registeredComponents[currentView].forEach((item) => {
+                    if(item.updateHash)
+                        item.updateHash(newHash);
                 });
-        });
+            });
         }
     }
 
