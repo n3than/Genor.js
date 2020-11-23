@@ -12,7 +12,7 @@ class NavBarComponent extends notic.Component{
 
     html(){
         let items = ``
-        for (let key in window.notic.routes){
+        for (let key in window.notic.hashList){
             items = items + `<li><a href="${"#/"+key}"> ${key} </a></li>`;
         }
 
