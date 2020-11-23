@@ -1,7 +1,7 @@
 class App extends notic.Component {
 
     html(){ 
-        return `<button onClick = "message = new Message('Chat');"> new </button>
+        return `<button onClick = "message = new Message('Chat');"> new Element </button>
                     <div id="Chat"></div>`;
     }
 
