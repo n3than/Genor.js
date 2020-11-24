@@ -7,7 +7,7 @@ class AppComponent extends notic.Component{
 
 class NavBarComponent extends notic.Component{
     constructor(){
-        super("navBar");
+        super({},"navBar");
     }
 
     html(){
@@ -30,7 +30,7 @@ class NavBarComponent extends notic.Component{
 
 class ListComponent extends notic.Component{
     constructor(){
-        super("content");
+        super({},"content");
     }
     
     html(){
@@ -55,7 +55,7 @@ class ListComponent extends notic.Component{
 
 class ProfileComponent extends notic.Component{
     constructor(){
-        super("content", ["profile"])
+        super({}, "content", ["profile"])
     }
     html(){
         return  `<div class="row">
@@ -72,7 +72,7 @@ class ProfileComponent extends notic.Component{
 
 class GalleryComponent extends notic.Component{
     constructor(){
-        super("content", ["gallery"])
+        super({},"content", ["gallery"])
     }
     html(){
         let collectionOut = ``;

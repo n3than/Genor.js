@@ -61,6 +61,7 @@
         var newHash = w.location.hash.replace('#', '').replace('/', '');;
 
         if(view){
+            console.log("Hi i am raffi");
             if(d.getElementById(view)){
                 d.getElementById(view).innerHTML = "";
                 
@@ -79,7 +80,7 @@
             this.hashList[newHash].forEach((item) => {
                 
                 let currentView = item.view;
-                
+                console.log("hi i am gay");
                 if(updatedViews.includes(currentView)){
                     d.getElementById(currentView).innerHTML = d.getElementById(currentView).innerHTML + item.html();
                 }
