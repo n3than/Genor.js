@@ -5,13 +5,13 @@ class App extends notic.Component {
         this.messageCount = 0; 
         this.messages = [];
 
-        return `<button onClick = "app.buttonClick()"> new Message </button>
+        return `<button onClick = "${this.constructor.name.toLowerCase()}.buttonClick()"> new Message </button>
                 <div id="chat"></div>`;
     }
 
     buttonClick(){
-        this.messageCount++;
         this.messages.push(new Message({message : 'some message', user: 'some user', count: this.messageCount}, 'chat'));
+        this.messageCount++;
     }
 }
 
@@ -24,17 +24,12 @@ class Message extends notic.Component {
     html(){ 
         if(this.random_boolean == undefined){
             this.random_boolean = Math.random() <= 0.5;
-            console.log("html triggered message " + this.properties.count);
         }
         
         return `
         <div id="message-${(this.random_boolean) ? 'blue' : 'orange'}">
         <p id="message-content">${this.properties.message} ${this.properties.count}</p>
         <p id ="message-user">${this.properties.user}</p>`;
-    }
-
-    updateView(){
-        console.log("update triggered message " + this.properties.count);
     }
 }
 
