@@ -1,18 +1,18 @@
-class AppComponent extends notic.Component{
+class AppComponent extends genor.Component{
     html(){
         return(`<div id = "navBar"> </div>
                 <div id = "content" style = "padding: 16px"> </div>`)
     }
 }
 
-class NavBarComponent extends notic.Component{
+class NavBarComponent extends genor.Component{
     constructor(){
         super({},"navBar");
     }
 
     html(){
         let items = ``
-        for (let key in window.notic.hashList){
+        for (let key in window.genor.hashList){
             items = items + `<li><a href="${"#/"+key}"> ${key} </a></li>`;
         }
 
@@ -28,7 +28,7 @@ class NavBarComponent extends notic.Component{
     }
 }
 
-class ListComponent extends notic.Component{
+class ListComponent extends genor.Component{
     constructor(){
         super({},"content");
     }
@@ -53,7 +53,7 @@ class ListComponent extends notic.Component{
     }
 }
 
-class ProfileComponent extends notic.Component{
+class ProfileComponent extends genor.Component{
     constructor(){
         super({}, "content", ["profile"])
     }
@@ -70,7 +70,7 @@ class ProfileComponent extends notic.Component{
     }
 }
 
-class GalleryComponent extends notic.Component{
+class GalleryComponent extends genor.Component{
     constructor(){
         super({},"content", ["gallery"])
     }
@@ -119,4 +119,3 @@ var navbarComponent = new NavBarComponent();
 var listComponent = new ListComponent();
 var galleryComponent = new GalleryComponent();
 var infoComponent = new ProfileComponent();
-notic.initialize();

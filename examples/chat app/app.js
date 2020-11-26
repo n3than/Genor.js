@@ -1,4 +1,4 @@
-class App extends notic.Component {
+class App extends genor.Component {
 
     html(){
         console.log("html triggered app");
@@ -15,7 +15,7 @@ class App extends notic.Component {
     }
 }
 
-class Message extends notic.Component {
+class Message extends genor.Component {
 
     constructor(properties, view){
         super(properties, view);

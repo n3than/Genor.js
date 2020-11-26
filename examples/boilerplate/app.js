@@ -1,7 +1,7 @@
-class App extends notic.Component { //The App component.
+class App extends genor.Component { //The App component.
     
     html(){ //Method that generates html of the App component.
-        var icon_1080 = `<img src = "img/icon-1080.png" id = "icon" />`;
+        var icon_1080 = `<img src = "img/big-icon.svg" id = "icon" />`;
         var info = `<span id = "info"> Source is located in /app.js.</span>`;
         var actionLink = '<a id = "action" href="https://github.com/Nathan2474/notic.js"> View on Github </a>';
         
@@ -11,4 +11,3 @@ class App extends notic.Component { //The App component.
 }
 
 var app = new App();
-notic.initialize();
