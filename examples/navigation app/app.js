@@ -119,3 +119,5 @@ var navbarComponent = new NavBarComponent();
 var listComponent = new ListComponent();
 var galleryComponent = new GalleryComponent();
 var infoComponent = new ProfileComponent();
+
+console.log("finished app");

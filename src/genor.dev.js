@@ -4,8 +4,8 @@
         this.hashList = {};
         this.version = {major: 0, minor: 0, patch:2};
         this.defaultHash = "";
-        this.viewElement;
         this.registeredComponents = {}
+        this.isInitialized = false;
     }
 
     class Component{
@@ -30,38 +30,37 @@
                 
                 window.genor.hashList[element].push(this);
             });
-            if(genor)
+            if(genor.isInitialized)
                 genor.update(view);     //Updates all items in the given view.
         }
     }
 
     Genor.prototype.initialize = function(){        //Setting values and init listener to hash changes.
-        var updateGenorDelegate = updateGenor.bind(this);
+        console.log("initialize");
+        
         this.viewElement = d.getElementById('appView');
         if (!this.viewElement) return;
-
-        window.onhashchange = updateGenorDelegate;
-        updateGenorDelegate();
         w.location.hash = "#/" + this.defaultHash;
-    }
 
-    Genor.prototype.start = function(){     //Binds the onhashchange to the updateGenor function.
-        var updateGenorDelegate = updateGenor().bind(this);
-        w.onhashchange = updateGenorDelegate;
+        var updateGenorDelegate = updateGenor.bind(this);
+        window.onhashchange = updateGenorDelegate;
+
+        this.isInitialized = true;
     }
 
     Genor.prototype.update = function(view){
+        console.log("update");
         var updateGenorDelegate = updateGenor.bind(this);
         updateGenorDelegate(view);
     }
     
     function updateGenor(view){     //Handles all the html changes by firing specific methods from Components.
         
-        console.log(view);
-        var newHash = w.location.hash.replace('#', '').replace('/', '');;
+        if(!genor.isInitialized) return;
+        console.log("updateGenor");
 
-        if(view){
-            console.log("Hi i am raffi");
+        if(typeof view == "string"){
+            
             if(d.getElementById(view)){
                 d.getElementById(view).innerHTML = "";
                 
@@ -71,16 +70,21 @@
                             item.updateView();
                 });
             }
+            console.log("- View");
         }
         else{
-            if(!(newHash in this.hashList))
-                newHash = this.defaultHash;
             
+            var newHash = w.location.hash.replace('#', '')
+            newHash = newHash.replace('/', '');
+
+            console.log("- Hash");
+            
+            if(this.hashList[newHash] != undefined){
             let updatedViews = [];
             this.hashList[newHash].forEach((item) => {
                 
                 let currentView = item.view;
-                console.log("hi i am gay");
+                
                 if(updatedViews.includes(currentView)){
                     d.getElementById(currentView).innerHTML = d.getElementById(currentView).innerHTML + item.html();
                 }
@@ -94,12 +98,15 @@
                         item.updateHash(newHash);
                 });
             });
+            }
         }
     }
 
-    document.onload = function(){
+    window.addEventListener("load", function(){
         genor.initialize();
-    }
+        var updateGenorDelegate = updateGenor.bind(w.genor);
+        updateGenorDelegate();
+    });
 
     w.genor = new Genor();   //Appends needed values to the window.
     w.genor.Component = Component;
