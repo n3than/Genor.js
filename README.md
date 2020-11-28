@@ -1,4 +1,4 @@
-<img src="/icon.svg" width="150" height="150">
+<img src="/icon.svg" width="130" height="130">
 
 # Genor.js
 Genor is a very small framework. The way it is built can be very powerful for small projects.
