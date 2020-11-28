@@ -2,9 +2,9 @@
 {
     function Genor(){       //Summary and creation of all values
         this.hashList = {};
-        this.version = {major: 0, minor: 0, patch:2};
+        this.version = {major: 0, minor: 0, patch:3};
         this.defaultHash = "";
-        this.registeredComponents = {}
+        this.componentList = {}
         this.isInitialized = false;
     }
 
@@ -19,10 +19,10 @@
             if(!hashList)
                 this.hashList = [window.genor.defaultHash];
 
-            if(window.genor.registeredComponents[this.view] === undefined)
-                window.genor.registeredComponents[this.view] = [];
+            if(window.genor.componentList[this.view] === undefined)
+                window.genor.componentList[this.view] = [];
             
-            window.genor.registeredComponents[this.view].push(this);
+            window.genor.componentList[this.view].push(this);
 
             this.hashList.forEach(element => {
                 if(window.genor.hashList[element] === undefined)
@@ -36,7 +36,6 @@
     }
 
     Genor.prototype.initialize = function(){        //Setting values and init listener to hash changes.
-        console.log("initialize");
         
         this.viewElement = d.getElementById('appView');
         if (!this.viewElement) return;
@@ -49,7 +48,6 @@
     }
 
     Genor.prototype.update = function(view){
-        console.log("update");
         var updateGenorDelegate = updateGenor.bind(this);
         updateGenorDelegate(view);
     }
@@ -57,27 +55,23 @@
     function updateGenor(view){     //Handles all the html changes by firing specific methods from Components.
         
         if(!genor.isInitialized) return;
-        console.log("updateGenor");
 
         if(typeof view == "string"){
             
             if(d.getElementById(view)){
                 d.getElementById(view).innerHTML = "";
                 
-                this.registeredComponents[view].forEach((item) => {
+                this.componentList[view].forEach((item) => {
                         d.getElementById(view).innerHTML = d.getElementById(view).innerHTML + item.html();
                         if(item.updateView)
                             item.updateView();
                 });
             }
-            console.log("- View");
         }
         else{
             
             var newHash = w.location.hash.replace('#', '')
             newHash = newHash.replace('/', '');
-
-            console.log("- Hash");
             
             if(this.hashList[newHash] != undefined){
             let updatedViews = [];
@@ -93,7 +87,7 @@
                     updatedViews.push(currentView);
                 }
     
-                this.registeredComponents[currentView].forEach((item) => {
+                this.componentList[currentView].forEach((item) => {
                     if(item.updateHash)
                         item.updateHash(newHash);
                 });
@@ -110,6 +104,6 @@
 
     w.genor = new Genor();   //Appends needed values to the window.
     w.genor.Component = Component;
-    w.genor.registeredComponents = {};
+    w.genor.componentList = {};
     w.genor.defaultHash = "home";
 })(window, document);
