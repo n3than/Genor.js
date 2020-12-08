@@ -2,7 +2,7 @@
 {
     function Genor(){       //Summary and creation of all values
         this.hashList = {};
-        this.version = {major: 0, minor: 0, patch:3};
+        this.version = {major: 0, minor: 0, patch:4};
         this.defaultHash = "";
         this.componentList = {}
         this.isInitialized = false;
@@ -42,7 +42,7 @@
         w.location.hash = "#/" + this.defaultHash;
 
         var updateGenorDelegate = updateGenor.bind(this);
-        window.onhashchange = updateGenorDelegate;
+        w.onhashchange = updateGenorDelegate;
 
         this.isInitialized = true;
     }
@@ -59,13 +59,15 @@
         if(typeof view == "string"){
             
             if(d.getElementById(view)){
-                d.getElementById(view).innerHTML = "";
+                let newViewHtml;
                 
                 this.componentList[view].forEach((item) => {
-                        d.getElementById(view).innerHTML = d.getElementById(view).innerHTML + item.html();
+                        d.getElementById(view).innerHTML = newViewHtml + item.html();
                         if(item.updateView)
                             item.updateView();
                 });
+
+                d.getElementById(view).innerHTML = newViewHtml;
             }
         }
         else{
@@ -96,7 +98,7 @@
         }
     }
 
-    window.addEventListener("load", function(){
+    w.addEventListener("load", function(){
         genor.initialize();
         var updateGenorDelegate = updateGenor.bind(w.genor);
         updateGenorDelegate();
@@ -106,4 +108,8 @@
     w.genor.Component = Component;
     w.genor.componentList = {};
     w.genor.defaultHash = "home";
+
+    const reader = new FileReader();
+    console.log(reader.readAsText("/app.js"));
+
 })(window, document);

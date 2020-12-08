@@ -1,18 +1,18 @@
-class AppComponent extends genor.Component{
+class AppComponent extends Genor.Component{
     html(){
         return(`<div id = "navBar"> </div>
                 <div id = "content" style = "padding: 16px"> </div>`)
     }
 }
 
-class NavBarComponent extends genor.Component{
+class NavBarComponent extends Genor.Component{
     constructor(){
         super({},"navBar");
     }
 
     html(){
         let items = ``
-        for (let key in window.genor.hashList){
+        for (let key in genor.hashList){
             items = items + `<li><a href="${"#/"+key}"> ${key} </a></li>`;
         }
 
@@ -28,7 +28,7 @@ class NavBarComponent extends genor.Component{
     }
 }
 
-class ListComponent extends genor.Component{
+class ListComponent extends Genor.Component{
     constructor(){
         super({},"content");
     }
@@ -53,7 +53,7 @@ class ListComponent extends genor.Component{
     }
 }
 
-class ProfileComponent extends genor.Component{
+class ProfileComponent extends Genor.Component{
     constructor(){
         super({}, "content", ["profile"])
     }
@@ -67,7 +67,7 @@ class ProfileComponent extends genor.Component{
     }
 }
 
-class GalleryComponent extends genor.Component{
+class GalleryComponent extends Genor.Component{
     constructor(){
         super({},"content", ["gallery"])
     }
@@ -91,30 +91,40 @@ class GalleryComponent extends genor.Component{
                 </div>
                 </div>
                 </div>`;
-    }   
+        }   
 
-        return `    <div class="row">
-                    <div class="col s12 m6">
-                    <div class="card blue-grey darken-1">
-                    <div class="card-content white-text">
-                    <span class="card-title">Card Title</span>
-                    <p> I am a very simple card. I am good at containing small bits of information.
-                    I am convenient because I require little markup to use effectively.</p>
-                    </div>
-                    <div class="card-action">
-                    <a href="#">This is a link</a>
-                    <a href="#">This is a link</a>
-                    </div>
-                    </div>
-                    </div>
-                    </div><div class="row"> <h3 class="header" style = "margin-left:16px">Gallery</h3> ${collectionOut}`;
+        return `    
+                <div class="row">
+                <div class="col s12 m6">
+                <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                <span class="card-title">Card Title</span>
+                <p> I am a very simple card. I am good at containing small bits of information.
+                I am convenient because I require little markup to use effectively.</p>
+                </div>
+                <div class="card-action">
+                <a href="#">This is a link</a>
+                <a href="#">This is a link</a>
+                </div>
+                </div>
+                </div>
+                </div><div class="row"> <h3 class="header" style = "margin-left:16px">Gallery</h3> ${collectionOut}`;
     }
 }
+
+class TestComponent extends Genor.Component{
+    html(){
+        return "-repeat 10 <HelloWorld>";
+    }
+}
+
+var helloWorld = new Genor.Snippet({name: "HelloWorld", html: "<h1> helloworld </h1>"});
 
 var appComponent = new AppComponent();
 var navbarComponent = new NavBarComponent();
 var listComponent = new ListComponent();
 var galleryComponent = new GalleryComponent();
 var infoComponent = new ProfileComponent();
+var testComponent = new TestComponent();
 
 console.log("finished app");
