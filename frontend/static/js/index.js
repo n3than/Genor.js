@@ -20,6 +20,8 @@ const router = async () => {
     }
     console.log(match);
     console.log(potentialMatches);
+
+    //match.route.view is a function. could return html.... ;)
 };
 
 document.addEventListener('DOMContentLoaded', ()=> {
