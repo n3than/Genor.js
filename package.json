@@ -1,6 +1,6 @@
 {
   "name": "genor.js",
-  "version": "1.0.0",
+  "version": "0.0.4",
   "description": "Genor.js - Small and impactful</h1>",
   "main": "index.js",
   "scripts": {
@@ -8,13 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/git-nathan/Genor.js.git"
+    "url": "git+https://github.com/n3than/Genor.js.git"
   },
+  "dependencies": {
+    "express": "~4.17.1"
+  }
+  ,
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Nathan Reyes",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/git-nathan/Genor.js/issues"
+    "url": "https://github.com/n3than/Genor.js/issues"
   },
-  "homepage": "https://github.com/git-nathan/Genor.js#readme"
+  "homepage": "https://github.com/n3than/Genor.js#readme"
 }
